@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gerador de Certificados Expell</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="control-panel" aria-labelledby="app-title">
+        <div class="brand-row">
+          <div class="brand-mark" aria-hidden="true">
+            <span>Expell</span>
+          </div>
+          <div>
+            <p class="eyebrow">Controle de Pragas e Limpeza Tecnica</p>
+            <h1 id="app-title">Gerador de Certificados</h1>
+          </div>
+        </div>
+
+        <div class="panel-grid">
+          <label class="upload-box" for="csv-file">
+            <input id="csv-file" type="file" accept=".csv,text/csv" />
+            <span class="upload-icon" aria-hidden="true">CSV</span>
+            <strong>Importar planilha CSV</strong>
+            <small>Colunas aceitas: nome_cliente, cnpj, data, tipo_produto, texto_contrato</small>
+          </label>
+
+          <div class="actions">
+            <button id="load-sample" type="button">Usar exemplo</button>
+            <button id="print-current" type="button">Imprimir previa</button>
+            <button id="print-all" type="button" class="primary">Gerar impressao em lote</button>
+            <button id="download-html" type="button">Baixar HTML</button>
+          </div>
+          <p class="print-note">Na janela de impressao, selecione A4, paisagem e margens "Nenhuma" para manter o enquadramento fiel.</p>
+        </div>
+
+        <div class="status-bar" role="status" aria-live="polite">
+          <span id="status-count">0 clientes carregados</span>
+          <span id="status-errors">Nenhuma validacao executada</span>
+        </div>
+        <ul id="validation-details" class="validation-details" aria-live="polite"></ul>
+
+        <div class="data-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>CNPJ</th>
+                <th>Data</th>
+                <th>Produto</th>
+              </tr>
+            </thead>
+            <tbody id="client-rows">
+              <tr>
+                <td colspan="4">Importe um CSV ou use o exemplo para visualizar.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="preview-panel" aria-labelledby="preview-title">
+        <div class="preview-header">
+          <div>
+            <p class="eyebrow">Previa visual</p>
+            <h2 id="preview-title">Certificado</h2>
+          </div>
+          <span class="format-pill">A4 paisagem</span>
+        </div>
+
+        <div id="certificate-preview" class="certificate-scale"></div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+services:
+  gerador-certificados:
+    build: .
+    container_name: gerador-certificados-expell
+    restart: unless-stopped
+    ports:
+      - "8085:80"
