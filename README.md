@@ -5,7 +5,7 @@ MVP local para gerar certificados em lote a partir de uma planilha CSV, usando o
 ## Como usar
 
 1. Abra `index.html` no navegador.
-2. Importe um CSV com as colunas `nome_cliente`, `cnpj`, `data`, `tipo_produto` e `texto_contrato`.
+2. Importe um CSV com as colunas `nome_cliente`, `cnpj`, `tipo_produto` e `texto_contrato`.
 3. Confira a previa do certificado sobre o modelo oficial.
 4. Use `Gerar impressao em lote` para abrir a pagina pronta para imprimir ou salvar em PDF.
 
@@ -19,7 +19,6 @@ O arquivo `assets/modelo-certificado-insetan.png` fica travado como fundo do cer
 - Texto do contrato
 - Nome do cliente
 - CNPJ
-- Data
 
 ## Proximos passos
 
@@ -29,7 +28,7 @@ O arquivo `assets/modelo-certificado-insetan.png` fica travado como fundo do cer
 
 ## Validacoes
 
-O app valida CNPJ, data no formato `dd/mm/aaaa`, campos obrigatorios e tamanho maximo do CSV antes da geracao.
+O app valida CNPJ, campos obrigatorios e tamanho maximo do CSV antes da geracao.
 
 `texto_contrato` controla o trecho depois de `contrato de` no paragrafo. Se a coluna nao existir, o app usa `tipo_produto` como fallback.
 

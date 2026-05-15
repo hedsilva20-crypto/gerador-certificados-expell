@@ -1,4 +1,4 @@
-nome_cliente,cnpj,data,tipo_produto,texto_contrato
-Padaria Padre Eustáquio LTDA,05.490.568/0001-51,02/07/2013,Controle de pragas urbanas,monitoramento e controle de pragas urbanas
-Restaurante Minas Central LTDA,11.222.333/0001-81,15/03/2021,Limpeza de caixa d'água,limpeza de caixa d'água
-Industria Horizonte Alimentos SA,45.723.174/0001-10,08/11/2020,Controle integrado de pragas,controle integrado de pragas
+nome_cliente,cnpj,tipo_produto,texto_contrato
+Padaria Padre Eustáquio LTDA,05.490.568/0001-51,Controle de pragas urbanas,monitoramento e controle de pragas urbanas
+Restaurante Minas Central LTDA,11.222.333/0001-81,Limpeza de caixa d'água,limpeza de caixa d'água
+Industria Horizonte Alimentos SA,45.723.174/0001-10,Controle integrado de pragas,controle integrado de pragas

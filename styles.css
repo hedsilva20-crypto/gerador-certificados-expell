@@ -431,16 +431,6 @@ th {
   color: var(--expell-blue-dark);
 }
 
-.cert-date {
-  margin-top: 7mm;
-  color: #24485f;
-  font-size: 13.5px;
-}
-
-.cert-date strong {
-  color: var(--expell-blue-dark);
-}
-
 .cert-contact {
   margin-top: 12mm;
   color: var(--expell-blue);
@@ -507,8 +497,7 @@ th {
 
 .field-cover,
 .cert-product,
-.cert-body,
-.cert-date {
+.cert-body {
   position: absolute;
 }
 
@@ -571,8 +560,7 @@ th {
   line-height: 1.13;
 }
 
-.cert-body strong,
-.cert-date strong {
+.cert-body strong {
   color: #003150;
   font-weight: 900;
 }
@@ -584,18 +572,6 @@ th {
 .body-line {
   display: block;
   white-space: nowrap;
-}
-
-.cert-date {
-  z-index: 2;
-  left: 7.2%;
-  top: 66%;
-  margin: 0;
-  color: #003150;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 6.75mm;
-  font-weight: 400;
-  line-height: 1;
 }
 
 .cert-check,

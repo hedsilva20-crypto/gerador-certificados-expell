@@ -2,14 +2,12 @@ const sampleClients = [
   {
     nome_cliente: "Padaria Padre Eustáquio LTDA",
     cnpj: "05.490.568/0001-51",
-    data: "02/07/2013",
     tipo_produto: "Controle de pragas urbanas",
     texto_contrato: "monitoramento e controle de pragas urbanas"
   },
   {
     nome_cliente: "Restaurante Minas Central LTDA",
     cnpj: "11.222.333/0001-81",
-    data: "15/03/2021",
     tipo_produto: "Limpeza de caixa d'água",
     texto_contrato: "limpeza de caixa d'água"
   }
@@ -43,7 +41,6 @@ const headerMap = {
   "nome do cliente": "nome_cliente",
   cnpj: "cnpj",
   data: "data",
-  desde: "data",
   produto: "tipo_produto",
   tipo_produto: "tipo_produto",
   "tipo de produto": "tipo_produto",
@@ -98,19 +95,6 @@ function isValidCnpj(value) {
   const firstDigit = calculateDigit(digits.slice(0, 12));
   const secondDigit = calculateDigit(digits.slice(0, 12) + firstDigit);
   return digits.endsWith(firstDigit + secondDigit);
-}
-
-function isValidDateBR(value) {
-  const match = String(value || "").match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-  if (!match) return false;
-
-  const [, dayText, monthText, yearText] = match;
-  const day = Number(dayText);
-  const month = Number(monthText);
-  const year = Number(yearText);
-  const date = new Date(year, month - 1, day);
-
-  return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
 }
 
 function formatBytes(bytes) {
@@ -205,8 +189,6 @@ function validateClients(clients) {
     if (!client.nome_cliente) errors.push(`Linha ${line}: cliente sem nome`);
     if (!client.cnpj) errors.push(`Linha ${line}: CNPJ vazio`);
     if (client.cnpj && !isValidCnpj(client.cnpj)) errors.push(`Linha ${line}: CNPJ inválido`);
-    if (!client.data) errors.push(`Linha ${line}: data vazia`);
-    if (client.data && !isValidDateBR(client.data)) errors.push(`Linha ${line}: data inválida`);
     if (!client.tipo_produto) errors.push(`Linha ${line}: produto vazio`);
   });
 
@@ -266,7 +248,6 @@ function certificateTemplate(client, className = "") {
   const contractText = client.texto_contrato || lowercaseFirst(product);
   const name = client.nome_cliente || "Nome do cliente";
   const cnpj = client.cnpj || "00.000.000/0000-00";
-  const date = client.data || "00/00/0000";
   const companyName = splitCompanyName(name);
   const contractLines = splitContractText(contractText);
   const longTextClass = companyName.main.length > 34 || contractText.length > 52 ? " cert-body--compact" : "";
@@ -292,7 +273,6 @@ function certificateTemplate(client, className = "") {
         <span class="body-line">contrato de ${escapeHtml(contractLines.first)}</span>
         <span class="body-line">${companyLine}</span>
       </p>
-      <p class="cert-date">Desde: <strong>${escapeHtml(date)}</strong></p>
     </article>
   `;
 }
@@ -304,7 +284,7 @@ function renderPreview() {
 
 function renderTable() {
   if (!state.clients.length) {
-    nodes.rows.innerHTML = '<tr><td colspan="4">Importe um CSV ou use o exemplo para visualizar.</td></tr>';
+    nodes.rows.innerHTML = '<tr><td colspan="3">Importe um CSV ou use o exemplo para visualizar.</td></tr>';
     return;
   }
 
@@ -313,7 +293,6 @@ function renderTable() {
       <tr class="client-row${index === state.selectedIndex ? " is-selected" : ""}" data-client-index="${index}" tabindex="0">
         <td>${escapeHtml(client.nome_cliente)}</td>
         <td>${escapeHtml(client.cnpj)}</td>
-        <td>${escapeHtml(client.data)}</td>
         <td>${escapeHtml(client.tipo_produto)}</td>
       </tr>
     `)
