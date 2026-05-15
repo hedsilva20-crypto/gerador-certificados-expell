@@ -24,6 +24,7 @@ const MAX_CSV_BYTES = 5 * 1024 * 1024;
 const nodes = {
   file: document.querySelector("#csv-file"),
   loadSample: document.querySelector("#load-sample"),
+  clearData: document.querySelector("#clear-data"),
   printCurrent: document.querySelector("#print-current"),
   printAll: document.querySelector("#print-all"),
   downloadHtml: document.querySelector("#download-html"),
@@ -319,6 +320,7 @@ function setClients(clients) {
 function clearClients(message, details = []) {
   state.clients = [];
   state.selectedIndex = 0;
+  nodes.file.value = "";
   nodes.count.textContent = "0 clientes carregados";
   setValidationMessage(message, details);
   renderPreview();
@@ -391,7 +393,12 @@ nodes.file.addEventListener("change", async (event) => {
 });
 
 nodes.loadSample.addEventListener("click", () => {
+  nodes.file.value = "";
   setClients(sampleClients);
+});
+
+nodes.clearData.addEventListener("click", () => {
+  clearClients("Dados removidos. Importe uma nova planilha CSV para continuar.");
 });
 
 nodes.printCurrent.addEventListener("click", () => {

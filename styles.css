@@ -71,6 +71,11 @@ button.primary {
   color: #ffffff;
 }
 
+button.danger {
+  border-color: rgba(166, 25, 53, 0.42);
+  color: var(--expell-red-dark);
+}
+
 .app-shell {
   display: grid;
   grid-template-columns: minmax(360px, 470px) minmax(560px, 1fr);
