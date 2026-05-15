@@ -257,6 +257,7 @@ td {
 }
 
 .data-table-wrap {
+  max-height: 48vh;
   overflow: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -265,20 +266,52 @@ td {
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  table-layout: fixed;
+  font-size: 12px;
 }
 
 th,
 td {
-  padding: 10px 12px;
+  padding: 10px 11px;
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
+  overflow-wrap: anywhere;
 }
 
 th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   color: var(--expell-blue-dark);
   background: #f2f6f9;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  width: 42px;
+  text-align: right;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  width: 44%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+  width: 30%;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+  width: 26%;
+}
+
+.row-number {
+  color: var(--expell-blue-dark);
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .client-row {

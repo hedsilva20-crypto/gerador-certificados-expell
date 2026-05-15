@@ -75,8 +75,13 @@ function onlyDigits(value) {
   return String(value || "").replace(/\D/g, "");
 }
 
-function isValidCnpj(value) {
+function cnpjDigits(value) {
   const digits = onlyDigits(value);
+  return digits.length < 14 ? digits.padStart(14, "0") : digits;
+}
+
+function isValidCnpj(value) {
+  const digits = cnpjDigits(value);
 
   if (digits.length !== 14 || /^(\d)\1{13}$/.test(digits)) {
     return false;
@@ -116,7 +121,15 @@ function setValidationMessage(message, details = []) {
   }
 }
 
+function detectCsvDelimiter(text) {
+  const firstLine = String(text || "").split(/\r?\n/).find((line) => line.trim()) || "";
+  const semicolonCount = (firstLine.match(/;/g) || []).length;
+  const commaCount = (firstLine.match(/,/g) || []).length;
+  return semicolonCount >= commaCount ? ";" : ",";
+}
+
 function parseCsv(text) {
+  const delimiter = detectCsvDelimiter(text);
   const rows = [];
   let current = "";
   let row = [];
@@ -137,7 +150,7 @@ function parseCsv(text) {
       continue;
     }
 
-    if ((char === "," || char === ";") && !insideQuotes) {
+    if (char === delimiter && !insideQuotes) {
       row.push(current.trim());
       current = "";
       continue;
@@ -186,7 +199,7 @@ function validateClients(clients) {
   const errors = [];
 
   clients.forEach((client, index) => {
-    const line = index + 2;
+    const line = index + 1;
     if (!client.nome_cliente) errors.push(`Linha ${line}: cliente sem nome`);
     if (!client.cnpj) errors.push(`Linha ${line}: CNPJ vazio`);
     if (client.cnpj && !isValidCnpj(client.cnpj)) errors.push(`Linha ${line}: CNPJ inválido`);
@@ -285,13 +298,14 @@ function renderPreview() {
 
 function renderTable() {
   if (!state.clients.length) {
-    nodes.rows.innerHTML = '<tr><td colspan="3">Importe um CSV ou use o exemplo para visualizar.</td></tr>';
+    nodes.rows.innerHTML = '<tr><td colspan="4">Importe um CSV ou use o exemplo para visualizar.</td></tr>';
     return;
   }
 
   nodes.rows.innerHTML = state.clients
     .map((client, index) => `
       <tr class="client-row${index === state.selectedIndex ? " is-selected" : ""}" data-client-index="${index}" tabindex="0">
+        <td class="row-number">${index + 1}</td>
         <td>${escapeHtml(client.nome_cliente)}</td>
         <td>${escapeHtml(client.cnpj)}</td>
         <td>${escapeHtml(client.tipo_produto)}</td>
