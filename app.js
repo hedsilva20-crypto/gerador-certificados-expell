@@ -80,6 +80,26 @@ function cnpjDigits(value) {
   return digits.length < 14 ? digits.padStart(14, "0") : digits;
 }
 
+function isValidCpf(value) {
+  const digits = onlyDigits(value);
+
+  if (digits.length !== 11 || /^(\d)\1{10}$/.test(digits)) {
+    return false;
+  }
+
+  const calculateDigit = (base, factor) => {
+    const sum = base
+      .split("")
+      .reduce((total, digit, index) => total + Number(digit) * (factor - index), 0);
+    const result = (sum * 10) % 11;
+    return result === 10 ? "0" : String(result);
+  };
+
+  const firstDigit = calculateDigit(digits.slice(0, 9), 10);
+  const secondDigit = calculateDigit(digits.slice(0, 9) + firstDigit, 11);
+  return digits.endsWith(firstDigit + secondDigit);
+}
+
 function isValidCnpj(value) {
   const digits = cnpjDigits(value);
 
@@ -101,6 +121,19 @@ function isValidCnpj(value) {
   const firstDigit = calculateDigit(digits.slice(0, 12));
   const secondDigit = calculateDigit(digits.slice(0, 12) + firstDigit);
   return digits.endsWith(firstDigit + secondDigit);
+}
+
+function documentType(value) {
+  const digits = onlyDigits(value);
+  if (digits.length === 11) return "CPF";
+  if (digits.length === 14 || (digits.length < 14 && isValidCnpj(value))) return "CNPJ";
+  return "CPF/CNPJ";
+}
+
+function isValidDocument(value) {
+  const digits = onlyDigits(value);
+  if (digits.length === 11) return isValidCpf(value);
+  return isValidCnpj(value);
 }
 
 function formatBytes(bytes) {
@@ -201,8 +234,8 @@ function validateClients(clients) {
   clients.forEach((client, index) => {
     const line = index + 1;
     if (!client.nome_cliente) errors.push(`Linha ${line}: cliente sem nome`);
-    if (!client.cnpj) errors.push(`Linha ${line}: CNPJ vazio`);
-    if (client.cnpj && !isValidCnpj(client.cnpj)) errors.push(`Linha ${line}: CNPJ inválido`);
+    if (!client.cnpj) errors.push(`Linha ${line}: CPF/CNPJ vazio`);
+    if (client.cnpj && !isValidDocument(client.cnpj)) errors.push(`Linha ${line}: CPF/CNPJ inválido`);
     if (!client.tipo_produto) errors.push(`Linha ${line}: produto vazio`);
   });
 
@@ -266,9 +299,10 @@ function certificateTemplate(client, className = "") {
   const contractLines = splitContractText(contractText);
   const longTextClass = companyName.main.length > 34 || contractText.length > 52 ? " cert-body--compact" : "";
   const certificateClass = ["certificate", className].filter(Boolean).join(" ");
+  const documentLabel = documentType(cnpj);
   const legalLine = companyName.suffix
-    ? `<strong>${escapeHtml(companyName.suffix)}</strong>, CNPJ <strong class="no-break">${escapeHtml(cnpj)}</strong>, mantém`
-    : `CNPJ <strong class="no-break">${escapeHtml(cnpj)}</strong>, mantém`;
+    ? `<strong>${escapeHtml(companyName.suffix)}</strong>, ${documentLabel} <strong class="no-break">${escapeHtml(cnpj)}</strong>, mantém`
+    : `${documentLabel} <strong class="no-break">${escapeHtml(cnpj)}</strong>, mantém`;
   const companyLine = contractLines.second
     ? `${escapeHtml(contractLines.second)} com a <strong>AAA Dedetização Insetan LTDA</strong>`
     : `com a <strong>AAA Dedetização Insetan LTDA</strong>`;
