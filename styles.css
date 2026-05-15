@@ -257,14 +257,14 @@ td {
 }
 
 .data-table-wrap {
-  max-height: 48vh;
+  max-height: 430px;
   overflow: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
 }
 
 table {
-  width: 100%;
+  min-width: 760px;
   border-collapse: collapse;
   table-layout: fixed;
   font-size: 12px;
@@ -289,23 +289,23 @@ th {
 
 th:nth-child(1),
 td:nth-child(1) {
-  width: 42px;
+  width: 44px;
   text-align: right;
 }
 
 th:nth-child(2),
 td:nth-child(2) {
-  width: 44%;
+  width: 330px;
 }
 
 th:nth-child(3),
 td:nth-child(3) {
-  width: 30%;
+  width: 160px;
 }
 
 th:nth-child(4),
 td:nth-child(4) {
-  width: 26%;
+  width: 226px;
 }
 
 .row-number {
